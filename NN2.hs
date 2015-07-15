@@ -1,33 +1,28 @@
 import Prelude hiding (map, replicate, sum)
 import Operations ((•), (••))
-import Neuron (Neuron, Weight)
-import Layer (Layer)
-import Network (Network)
-import Input (Input, Activation)
+import Neuron (Weight, Neuron, Layer, Network, Input)
 import Data.Vector (Vector)
 import Data.Vector.Generic (fromList, map, foldl', scanl', replicate, sum)
 
-thing :: Neuron
-thing = fromList [1,2,3]
 
-network :: Network
+network :: Weight a => Network a
 network = replicate 50 $ replicate 10 $ replicate 10 $ 0.99
 
 -- Runs the input through the NN
-evaluate :: Input -> Network -> Input
+evaluate :: Weight a => Input a -> Network a -> Input a
 evaluate = foldl' apply
 
 -- Runs the input through the NN and saves intermediate outputs
-evaluateAll :: Input -> Network -> Vector Input
+evaluateAll :: Weight a => Input a -> Network a -> Vector (Input a)
 evaluateAll = scanl' apply
 
-apply :: Input -> Layer -> Input
+apply :: Weight a => Input a -> Layer a -> Input a
 apply input layer = map sigmoid (input •• layer)
 
-sigmoid :: Activation -> Activation
+sigmoid :: Floating a => a -> a
 sigmoid x = 1.0 / (1.0 + exp (negate x))
 
-inputs :: Double -> Vector Input
+inputs :: Double -> Vector (Input Double)
 inputs max = fromList $ [replicate 10 x | x <- [0.0, 0.01 .. max]]
 
 foo max = sum $  map (sum . (`evaluate` network)) (inputs max)
