@@ -1,5 +1,7 @@
+{-# LANGUAGE OverloadedLists #-}
+
 import Prelude hiding (map, replicate, sum)
-import Operations ((•), (••))
+import Operations ((••))
 import Neuron (Weight, Neuron, Layer, Network, Input)
 import Data.Vector (Vector)
 import Data.Vector.Generic (fromList, map, foldl', scanl', replicate, sum)
@@ -29,3 +31,13 @@ foo max = sum $  map (sum . (`evaluate` network)) (inputs max)
 
 main = do
  	print $ foo 500.0
+
+--train :: Weight a => Network a -> (Input a, Input a) -> Network a
+--train network (input, output) = 
+--	where
+--	results = reverse (evaluateAll input network)
+--	e1 = output <-> results[0]
+--	∆1 = e1 <*> differentiate results[0]
+--	e2 = ∆1 • 
+
+--[[Weight]] -> [[Weight]]

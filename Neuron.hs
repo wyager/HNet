@@ -14,7 +14,7 @@ type Network w = V.Vector (Layer w)
 
 type Input a = U.Vector a
 
-class (G.Vector V.Vector a, G.Vector U.Vector a, Floating a) => Weight a
+class (G.Vector U.Vector a, Floating a) => Weight a
 
 instance Weight Double 
 instance Weight Float
