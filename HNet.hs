@@ -1,7 +1,7 @@
-{-# LANGUAGE OverloadedLists #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 import Prelude hiding (map, replicate, sum)
-import Operations ((••))
+import Operations ((••), (.-), (.*))
 import Neuron (Weight, Neuron, Layer, Network, Input)
 import Data.Vector (Vector)
 import Data.Vector.Generic (fromList, map, foldl', scanl', replicate, sum)
@@ -24,6 +24,9 @@ apply input layer = map sigmoid (input •• layer)
 sigmoid :: Floating a => a -> a
 sigmoid x = 1.0 / (1.0 + exp (negate x))
 
+differentiate :: Weight a => Input a -> Input a
+differentiate = map (\n -> n * (1.0 - n))
+
 inputs :: Double -> Vector (Input Double)
 inputs max = fromList $ [replicate 10 x | x <- [0.0, 0.01 .. max]]
 
@@ -36,8 +39,24 @@ main = do
 --train network (input, output) = 
 --	where
 --	results = reverse (evaluateAll input network)
---	e1 = output <-> results[0]
---	∆1 = e1 <*> differentiate results[0]
---	e2 = ∆1 • 
+--	result = head results
+--	error = output .- result :: Input a
+--	derr_din = derr_dout .* dout_din :: Input a
+--	derr_dout = error :: Input a
+--	dout_din  = differentiate result :: Input a
+--	-- Outer axis indexed by output neuron, inner axis indexed by input neuron?
+--	derr_dweights = derr_din ^* din_dweights :: Layer a 
+--	din_dweights = result' :: Input a
+--	result' = head (tail results) :: Input a
+
+--	derr_dout' = result' •• derr_dweights :: Input a -- There are probably other ways of finding this
+--	derr_din' = derr_dout' .* dout'_din'
+--	dout'_din' = differentiate result'
+--	derr_dweights' = derr_din' *? din'_dweights'
+--	din'_dweights' = result''
+
+-- Todo: Check that the derr_dout' definition is valid
+-- Todo: Check that I'm using the ^* and •• here correctly
+
 
 --[[Weight]] -> [[Weight]]
