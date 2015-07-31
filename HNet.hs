@@ -6,7 +6,6 @@ import Neuron (Weight, Neuron, Layer, Network, Input)
 import Data.Vector (Vector)
 import Data.Vector.Generic (fromList, map, foldl', scanl', replicate, sum)
 
-
 network :: Weight a => Network a
 network = replicate 50 $ replicate 10 $ replicate 10 $ 0.99
 
@@ -33,7 +32,7 @@ inputs max = fromList $ [replicate 10 x | x <- [0.0, 0.01 .. max]]
 foo max = sum $  map (sum . (`evaluate` network)) (inputs max)
 
 main = do
- 	print $ foo 500.0
+    print $ foo 500.0
 
 --train :: Weight a => Network a -> (Input a, Input a) -> Network a
 --train network (input, output) = 

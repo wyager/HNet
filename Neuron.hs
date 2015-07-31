@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 module Neuron (
-	Weight, Neuron, Layer, Network, Input
+    Weight, Neuron, Layer, Network, Input
 ) where
 
 import Data.Vector.Unboxed as U (Vector)

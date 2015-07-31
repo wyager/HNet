@@ -1,15 +1,17 @@
 module Operations (
-	(•), (••), (.-), (.*), (^*),
-	transpose
+    (•), (••), (.-), (.*), (^*),
+    transpose
 ) where
 
 import Prelude hiding (zipWith, sum, map, length)
 import Data.Vector.Generic (Vector, 
-	zipWith, sum, map, convert, generate, length, (!))
+    zipWith, sum, map, convert, generate, length, (!))
+import Neuron (Weight, Neuron, Layer, Network, Input)
 
 (•) :: (Vector v a, Num a) => v a -> v a -> a
 a • b = sum (zipWith (*) a b)
 
+-- {-# SPECIALIZE (••) :: Input Double -> Layer Double -> Input Double #-}
 (••) :: (Vector v1 (v2 a), Vector v1 a, Vector v2 a, Num a) => v2 a -> v1 (v2 a) -> v2 a
 a •• b = convert (map (a •) b)
 
@@ -24,6 +26,6 @@ a ^* b = map (\x -> map (*x) b) (convert a)
 
 transpose :: (Vector v1 (v2 a), Vector v2 a) => v1 (v2 a) -> v1 (v2 a)
 transpose v = generate width $ \x -> generate height $ \y -> (v ! y) ! x
-	where
-	height = length v
-	width  = length (v ! 0)
+    where
+    height = length v
+    width  = length (v ! 0)
