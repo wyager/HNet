@@ -11,7 +11,7 @@ import Neuron (Weight, Neuron, Layer, Network, Input)
 (•) :: (Vector v a, Num a) => v a -> v a -> a
 a • b = sum (zipWith (*) a b)
 
--- {-# SPECIALIZE (••) :: Input Double -> Layer Double -> Input Double #-}
+{-# INLINABLE (••) #-}
 (••) :: (Vector v1 (v2 a), Vector v1 a, Vector v2 a, Num a) => v2 a -> v1 (v2 a) -> v2 a
 a •• b = convert (map (a •) b)
 
