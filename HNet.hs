@@ -19,7 +19,6 @@ evaluateAll = scanl' apply
 
 apply :: Weight a => Input a -> Layer a -> Input a
 apply input layer = map sigmoid (input •• layer)
-{-# SPECIALIZE (••) :: Input Double -> Layer Double -> Input Double #-}
 
 sigmoid :: Floating a => a -> a
 sigmoid x = 1.0 / (1.0 + exp (negate x))

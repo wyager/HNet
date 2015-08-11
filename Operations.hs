@@ -6,8 +6,8 @@ module Operations (
 import Prelude hiding (zipWith, sum, map, length)
 import Data.Vector.Generic (Vector, 
     zipWith, sum, map, convert, generate, length, (!))
-import Neuron (Weight, Neuron, Layer, Network, Input)
 
+{-# INLINABLE (•) #-}
 (•) :: (Vector v a, Num a) => v a -> v a -> a
 a • b = sum (zipWith (*) a b)
 
